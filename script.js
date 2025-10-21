@@ -1,39 +1,30 @@
-/* Espera o DOM carregar completamente antes de executar o script */
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Requisito Obrigatório: Validação do Formulário ---
+    // -- VALIDANDO FORM
 
     const contactForm = document.getElementById('contact-form');
-    const formMessage = document.getElementById('form-message'); // Elemento para feedback
+    const formMessage = document.getElementById('form-message');
 
     contactForm.addEventListener('submit', function(event) {
-        // 1. Previne o envio padrão do formulário
         event.preventDefault(); 
         
-        // 2. Coleta e limpa os valores dos campos
         const nome = document.getElementById('nome').value.trim();
         const email = document.getElementById('email').value.trim();
         const mensagem = document.getElementById('mensagem').value.trim();
 
-        // 3. Validação de campos vazios
         if (nome === '' || email === '' || mensagem === '') {
             exibirMensagem('Por favor, preencha todos os campos.', 'error');
-            return; // Para a execução se houver erro
+            return;
         }
 
-        // 4. Validação do formato do e-mail
         if (!validarEmail(email)) {
             exibirMensagem('Por favor, insira um formato de e-mail válido (ex: usuario@dominio.com).', 'error');
-            return; // Para a execução se houver erro
+            return;
         }
 
-        // 5. Simulação de Envio (Se tudo estiver válido)
         console.log('Dados do formulário:', { nome, email, mensagem });
         
-        // Exibe mensagem de sucesso
         exibirMensagem('Mensagem enviada com sucesso!', 'success');
-        
-        // Limpa os campos do formulário
         contactForm.reset();
     });
 
@@ -57,27 +48,21 @@ document.addEventListener('DOMContentLoaded', function() {
         formMessage.textContent = msg;
         formMessage.style.color = (type === 'success') ? 'green' : 'red';
         
-        // Limpa a mensagem após 5 segundos
         setTimeout(() => {
             formMessage.textContent = '';
         }, 5000);
     }
 
-    
-    // --- Sugestão da Atividade: Tema Claro/Escuro ---
 
     const themeToggle = document.getElementById('theme-toggle');
     
-    // Verifica se o usuário já tem uma preferência salva
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
     themeToggle.addEventListener('click', function() {
-        // Adiciona ou remove a classe 'dark-mode' do body
         document.body.classList.toggle('dark-mode');
         
-        // Salva a preferência do usuário no localStorage
         if (document.body.classList.contains('dark-mode')) {
             localStorage.setItem('theme', 'dark');
         } else {
